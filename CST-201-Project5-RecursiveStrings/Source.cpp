@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-int slipToSlap;
+int globalBaseChange;
 
 bool slipCheck(string slip) {
 	int i = 0, base = 0;
@@ -27,7 +27,7 @@ bool slipCheck(string slip) {
 			slipCheck(slip.substr(base));
 		}
 		if (slip[i] == 'G') {
-			slipToSlap = i + 2;
+			globalBaseChange = i + 2;
 			cout << "Slip found" << endl;
 			return true;
 		}
@@ -59,14 +59,27 @@ bool slapCheck(string slap) {
 				base++;
 			}
 		}
-		if (slap[i + slipToSlap] == 'C') {
-			slipToSlap = 0;
+		if (slap[i + globalBaseChange] == 'C') {
+			
 			cout << "Slap found" << endl;
 			return true;
 		}
 	}
 
 
+}
+
+bool slopCheck(string slop) {
+	int i = 0, base = 0;
+
+	cout << slop.substr(i, slop.size()) << endl;
+
+	if (slapCheck(slop) == true) {
+		base += globalBaseChange;
+		slipCheck(slop.substr(base));
+	}
+
+	return false;
 }
 
 int main() {
@@ -76,6 +89,10 @@ int main() {
 
 	string slap = "ABDEFGC";
 	slapCheck(slap);
-	
+	cout << endl;
+
+	string slop = "AHDFG";
+	slopCheck(slop);
+	cout << endl;
 }
 
